@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
 
 // 1. Definir um componente React que se chama PrimeiroNome e produz um elemento html p com o seu nome
 const PrimeiroNome = () => {
@@ -14,35 +15,32 @@ const Sobrenome = () => {
 const App = () => {
   return (
     <>
-      <div style={{ margin: 'auto', width: 768, backgroundColor: '#EEE', padding: 12, borderRadius: 8 }}> 
+      <div className="container"> 
         {/* Que bom te ver por aqui ;), <span><PrimeiroNome /> <Sobrenome /></span> */}
-        Que bom te ver por aqui ;).
+        Que bom te ver por aqui! Para onde vamos hoje?
         <p></p>
         Usuário Logado (Subir variavel Após implementar Autenticação)
         <p></p>
         
-        <label htmlFor="descricao" style={{ display: 'block', marginBottom: 4 }}>Descreva com poucas Palavras ideias de Destino:</label> 
-        <input type="text" id="descricao" style={{ paddingTop: 8, paddingBottom: 8, borderStyle: 'hidden', width: '100%', borderRadius: 8, outline: 'none', boxSizing: 'border-box' }} /> 
+        <label htmlFor="descricao" className="label">Digite seus destinos preferidos</label> 
+        <input type="text" id="descricao" className="input-text" /> 
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginTop: '12px' }}>
-          <div style={{ flex: 1 }}>
-            <label htmlFor="dataInicio" style={{ display: 'block', marginBottom: 4 }}>Data Início:</label>
-            <input type="date" id="dataInicio" style={{ paddingTop: 8, paddingBottom: 8, borderStyle: 'hidden', width: '100%', borderRadius: 8, outline: 'none', boxSizing: 'border-box' }} />
+        <div className="flex-row">
+          <div className="flex-col">
+            <label htmlFor="dataInicio" className="label">Data de Ida:</label>
+            <input type="date" id="dataInicio" className="input-date" />
           </div>
 
-          <div style={{ flex: 1 }}>
-            <label htmlFor="dataFim" style={{ display: 'block', marginBottom: 4 }}>Data Fim:</label>
-            <input type="date" id="dataFim" style={{ paddingTop: 8, paddingBottom: 8, borderStyle: 'hidden', width: '100%', borderRadius: 8, outline: 'none', boxSizing: 'border-box' }} />
+          <div className="flex-col">
+            <label htmlFor="dataFim" className="label">Data de Volta (Opcional):</label>
+            <input type="date" id="dataFim" className="input-date" />
           </div>
         </div>
 
-        <button style={{ marginTop: 12, paddingTop: 8, paddingBottom: 8, backgroundColor: 'green', color: 'white', border: 'none', width: '100%', borderRadius: 8 }}>Enviar</button> 
+        <button className="button">Encontrar Destinos!</button> 
       </div> 
     </>
   );
 };
 
 ReactDOM.render(<App />, document.querySelector('#root'));
-
-
-

@@ -1,13 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;700&display=swap');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
+  background-image: url('./fundo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Container principal */
+.container {
+  margin: auto;
+  max-width: 768px;
+  background-color: #E0E0E0; 
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); 
+  border: 1px solid #1c35a3; 
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #1c35a3; 
+}
+
+/* Input de texto e data */
+.input-text, .input-date {
+  font-family: 'Nunito', sans-serif;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #9E9E9E; 
+  outline: none;
+  background-color: #F5F5F5;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  transition: border 0.3s ease;
+}
+
+.input-text:focus, .input-date:focus {
+  border: 1px solid #2196f3; 
+}
+
+/* Flex layout para as datas */
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.flex-col {
+  flex: 1;
+}
+
+/* Botão principal */
+.button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1c35a3;
+  color: #F5F5F5;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.button:hover {
+  background-color: #2196f3;
+}
+
+/* Para telas menores */
+@media (max-width: 768px) {
+  .flex-row {
+    flex-direction: column;
+  }
 }
