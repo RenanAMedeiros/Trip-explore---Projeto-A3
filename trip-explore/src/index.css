@@ -88,3 +88,43 @@ code {
     flex-direction: column;
   }
 }
+
+/* Destino.js */
+
+.destinos-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.roteiro {
+  flex: 1;
+  margin-right: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.checkboxes {
+  width: 200px;
+}
+
+.checkbox-item {
+  margin: 10px 0;
+}
+
+.valores-container, .horas-container {
+  margin-top: 20px;
+}
+
+.hora-item {
+  margin: 10px 0;
+}
+
+.hora-item input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100px; /* Ajuste a largura conforme necessário */
+  margin-left: 10px;
+}

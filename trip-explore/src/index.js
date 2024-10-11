@@ -1,29 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './index.css';
-
-// 1. Definir um componente React que se chama PrimeiroNome e produz um elemento html p com o seu nome
-const PrimeiroNome = () => {
-  return 'Matias';
-};
-
-// 2. Definir um componente React que se chama Sobrenome e produz um elemento html p com seu sobrenome
-const Sobrenome = () => {
-  return 'Porto';
-};
+import Login from './Login'; // Importe o componente de login
+import Destinos from './Destinos'; // Importe o novo componente de destinos
 
 const App = () => {
   return (
-    <>
-      <div className="container"> 
-        {/* Que bom te ver por aqui ;), <span><PrimeiroNome /> <Sobrenome /></span> */}
-        Que bom te ver por aqui! Para onde vamos hoje?
-        <p></p>
-        Usuário Logado (Subir variavel Após implementar Autenticação)
-        <p></p>
+    <Router>
+      <div className="container">
+        <h1>Que bom te ver por aqui! Para onde vamos hoje?</h1>
         
-        <label htmlFor="descricao" className="label">Digite seus destinos preferidos</label> 
-        <input type="text" id="descricao" className="input-text" /> 
+        {/* Link para a página de destinos */}
+        <Link to="/destinos">
+          <button className="button">Encontrar Destinos!</button>
+        </Link>
+        
+        <p>Usuário Logado (Subir variavel Após implementar Autenticação)</p>
+        
+        <label htmlFor="descricao" className="label">Digite seus destinos preferidos</label>
+        <input type="text" id="descricao" className="input-text" />
 
         <div className="flex-row">
           <div className="flex-col">
@@ -37,9 +33,13 @@ const App = () => {
           </div>
         </div>
 
-        <button className="button">Encontrar Destinos!</button> 
-      </div> 
-    </>
+        {/* Definição das rotas */}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/destinos" element={<Destinos />} /> {/* Nova rota */}
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
