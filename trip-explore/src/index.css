@@ -3,7 +3,6 @@
 body {
   margin: 0;
   font-family: 'Nunito', sans-serif;
-  display: flex;
   justify-content: center; 
   align-items: center; 
   height: 100vh; 
@@ -11,75 +10,26 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
 }
+
+html,body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.second-screen {
+  margin: 0; /* Remove qualquer margem global */
+  padding: 0;
+ }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-/* Container principal */
-.container {
-  margin: auto;
-  max-width: 768px;
-  background-color: #E0E0E0; 
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); 
-  border: 1px solid #1c35a3; 
-}
-
-.label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #1c35a3; 
-}
-
-/* Input de texto e data */
-.input-text, .input-date {
-  font-family: 'Nunito', sans-serif;
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #9E9E9E; 
-  outline: none;
-  background-color: #F5F5F5;
-  box-sizing: border-box;
-  margin-bottom: 16px;
-  transition: border 0.3s ease;
-}
-
-.input-text:focus, .input-date:focus {
-  border: 1px solid #2196f3; 
-}
-
-/* Flex layout para as datas */
-.flex-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.flex-col {
-  flex: 1;
-}
-
-/* Botão principal */
-.button {
-  width: 100%;
-  padding: 12px;
-  background-color: #1c35a3;
-  color: #F5F5F5;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.button:hover {
-  background-color: #2196f3;
 }
 
 /* Para telas menores */
@@ -89,42 +39,33 @@ code {
   }
 }
 
-/* Destino.js */
 
-.destinos-container {
-  display: flex;
-  justify-content: space-between;
+
+.container {
+  background-color: #fff;
   padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  margin: 20px auto;
+  text-align: center;
 }
 
-.roteiro {
-  flex: 1;
-  margin-right: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.checkboxes {
-  width: 200px;
-}
-
-.checkbox-item {
-  margin: 10px 0;
-}
-
-.valores-container, .horas-container {
+.lista {
   margin-top: 20px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  padding: 10px;
 }
 
-.hora-item {
-  margin: 10px 0;
-}
-
-.hora-item input[type="text"] {
-  padding: 8px;
-  border: 1px solid #ccc;
+.lista-item {
+  background-color: #f8f9fa;
+  padding: 10px;
+  margin: 5px 0;
   border-radius: 4px;
-  width: 100px; /* Ajuste a largura conforme necessário */
-  margin-left: 10px;
+}
+
+.login-msg {
+  font-size: 18px;
+  color: red;
 }

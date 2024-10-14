@@ -36,3 +36,123 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* Estilo para o cabeçalho e botão de hambúrguer */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+}
+
+h1 {
+  margin: 0;
+}
+
+/* Estilo para o botão de hambúrguer */
+.lines-button {
+  width: 40px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.lines {
+  display: block;
+  width: 100%;
+  height: 4px;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  transition: 0.3s ease-in-out;
+}
+
+.lines::before,
+.lines::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 4px;
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  transition: 0.3s ease-in-out;
+}
+
+.lines::before {
+  top: -10px;
+}
+
+.lines::after {
+  top: 10px;
+}
+
+/* Animação de transformação do hambúrguer para o "X" */
+.lines-button.open .lines {
+  background: transparent;
+}
+
+.lines-button.open .lines::before {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.lines-button.open .lines::after {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Estilo do menu lateral */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #111;
+  padding-top: 60px;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+.side-menu.open {
+  left: 0;
+}
+
+.side-menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Estilo para centralizar o texto no menu lateral */
+.side-menu h3, .side-menu p {
+  color: #ffffff; /* Define a cor do texto como branco */
+  text-align: center; /* Centraliza o texto */
+}
+
+.side-menu ul li:hover {
+  background-color: #575757;
+  color: white;
+}
+
+/* Estilo para o botão de fechar no topo do menu */
+.close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+/* Estilo para o conteúdo da página */
+.content {
+  padding: 20px;
+}

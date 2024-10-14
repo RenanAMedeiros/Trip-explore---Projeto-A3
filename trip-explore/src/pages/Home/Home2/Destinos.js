@@ -16,12 +16,21 @@ const Destinos = () => {
     setValorAtracoes(e.target.value);
   };
 
+  const countries = [
+    { name: 'Brasil', code: 'BR' },
+    { name: 'Estados Unidos', code: 'US' },
+    { name: 'França', code: 'FR' },
+    { name: 'Italia', code: 'IT' },
+  ];
+
   const countriesfilter = [
-    { name: 'Família' },
+    { name: 'Família'},
     { name: 'Romântica' },
-    { name: 'Aventureiro' },
+    { name: 'Aventureiro'},
     { name: 'História' },
   ];
+
+ 
 
   const selectedCountryTemplate = (option, props) => {
     if (option) {
@@ -44,10 +53,9 @@ const Destinos = () => {
 
   return (
     <>
-      <div className="inconone" onClick={() => navigate('/')}>
+      <div className="inconone" onClick={() => navigate('/primeira')}>
         <TbSquareArrowLeftFilled size={40} color="#fff" />
       </div>
-
 
       <main className='second-screen'>
         <div className="destinos-container">
@@ -66,6 +74,17 @@ const Destinos = () => {
             options={countriesfilter}
             optionLabel="name"
             placeholder="Categorias"
+            valueTemplate={selectedCountryTemplate}
+            itemTemplate={countryOptionTemplate}
+            className="w-full md:w-14rem"
+          />
+
+          <Dropdown
+            value={selectedCountry2}
+            onChange={(e) => setSelectedCountry2(e.value)}
+            options={countries}
+            optionLabel="name"
+            placeholder="Selecione o segundo país"
             valueTemplate={selectedCountryTemplate}
             itemTemplate={countryOptionTemplate}
             className="w-full md:w-14rem"
