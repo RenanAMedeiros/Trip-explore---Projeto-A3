@@ -1,7 +1,10 @@
-.inconone{
+.iconone {
+    margin: 0;
     padding: 20px;
+    left: 25px;
     width: 20px;
-    height: 24px;
+    height: 20px;
+
 }
 
 .second-screen {
@@ -12,9 +15,10 @@
     max-width: 450px;
     height: auto;
     padding: 20px;
-    margin: 0 auto; 
+    margin: 0 auto;
     box-sizing: border-box;
     background-color: #f5f5f5;
+    border-radius: 12px;
 
 }
 
@@ -26,7 +30,8 @@
     background-color: #1c35a3e5;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
     border: 1px solid #002fff;
-    border-radius: 12px; /* Canto arredondado para melhorar a aparência */
+    border-radius: 12px;
+    /* Canto arredondado para melhorar a aparência */
 }
 
 .roteiro {
@@ -48,6 +53,15 @@
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.hora-chegada [type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100px;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
 .hora-item {
     margin: 10px 0;
 }
@@ -62,16 +76,6 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100px;
-}
-
-.country-item {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-}
-
-.country-item span {
-    margin-left: 8px;
 }
 
 /* Adicionando estilo específico para o Dropdown (Select Country) */
@@ -93,16 +97,16 @@
     background-color: #fff;
 }
 
- .country-item {
+.country-item {
     padding: 5px;
     background-color: #fff;
 }
 
 .country-item:hover {
-    background-color: #e6e6e6; /* Mudar fundo ao passar o mouse */
+    background-color: #e6e6e6;
+    /* Mudar fundo ao passar o mouse */
 }
 
-/* Estilo para o template do país selecionado */
 .selected-country-template {
     display: flex;
     align-items: center;
@@ -126,13 +130,16 @@
 
 .card {
     width: 100%;
-    max-width: 400px; /* Ajuste conforme necessário */
+    max-width: 400px;
+    /* Ajuste conforme necessário */
 }
 
 .p-autocomplete {
     width: 100%;
-    max-width: 400px; /* Mantém a mesma largura que o Dropdown */
-    margin: 20px 0; /* Mesma margem que o Dropdown */
+    max-width: 400px;
+    /* Mantém a mesma largura que o Dropdown */
+    margin: 20px 0;
+    /* Mesma margem que o Dropdown */
     border-radius: 8px;
     border: 1px solid #ccc;
     background-color: #fff;
@@ -140,19 +147,43 @@
 }
 
 .p-autocomplete .p-autocomplete-input {
-    border-radius: 12px; /* Mantém os cantos arredondados */
-    padding: 10px; /* Mesma padronização de espaçamento */
+    border-radius: 12px;
+    /* Mantém os cantos arredondados */
+    padding: 10px;
+    /* Mesma padronização de espaçamento */
     font-size: 16px;
-    color: #333; /* Altera a cor do texto para ser consistente */
-    background-color: #fff; /* Fundo branco consistente */
+    color: #333;
+    /* Altera a cor do texto para ser consistente */
+    background-color: #fff;
+    /* Fundo branco consistente */
 }
 
 .p-autocomplete .p-autocomplete-panel {
-    border-radius: 12px; /* Mesma borda arredondada */
+    border-radius: 12px;
+    /* Mesma borda arredondada */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilo para a lista de sugestões do AutoComplete */
 .p-autocomplete .p-autocomplete-items {
-    border-radius: 12px; /* Borda arredondada para as sugestões */
+    border-radius: 12px;
+    /* Borda arredondada para as sugestões */
+}
+
+.button-destino {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #1c35a3;
+    color: #F5F5F5;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.button-destino:hover {
+    background-color: #061868;
+
 }
