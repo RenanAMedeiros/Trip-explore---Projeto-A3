@@ -1,4 +1,10 @@
 /* Container principal */
+.home{
+    text-align: center;
+    font-family: "Agbalumo", system-ui;
+    color: #ebe7e7 ;
+    margin-top: -55px;
+}
 .home_logo {
     background-color: #1c35a3;
     height: 60px;

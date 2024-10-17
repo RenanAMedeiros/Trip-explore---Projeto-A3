@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import './Destinos.css';
 import { Dropdown } from 'primereact/dropdown';
-import { TbSquareArrowLeftFilled } from 'react-icons/tb';
-import { useNavigate } from 'react-router-dom';
+import { TbSquareArrowLeftFilled } from 'react-icons/tb'; // Ícone de seta
+import { useNavigate, Link } from 'react-router-dom'; // Para navegar programaticamente
 
 const Destinos = () => {
-  const [selectedCountry1, setSelectedCountry1] = useState(null); // Primeiro país
-  const [selectedCountry2, setSelectedCountry2] = useState(null); // Segundo país
+  const [selectedCountry1, setSelectedCountry1] = useState(null);
+  const [selectedCountry2, setSelectedCountry2] = useState(null);
   const [valorAtracoes, setValorAtracoes] = useState(0);
   const [horaChegada, setHoraChegada] = useState('');
   const [horaSaida, setHoraSaida] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook para navegação
 
   const handleValorChange = (e) => {
     setValorAtracoes(e.target.value);
@@ -20,7 +20,14 @@ const Destinos = () => {
     { name: 'Família' },
     { name: 'Romântica' },
     { name: 'Aventureiro' },
-    { name: 'Histórica' },
+    { name: 'História' },
+  ];
+
+  const countries = [
+    { name: '1' },
+    { name: '2' },
+    { name: '3' },
+    { name: '4 ou mais' },
   ];
 
   const selectedCountryTemplate = (option, props) => {
@@ -44,12 +51,12 @@ const Destinos = () => {
 
   return (
     <>
-      <div className="inconone" onClick={() => navigate('/')}>
+      {/* Ícone de seta para voltar à página inicial */}
+      <div className="iconone" onClick={() => navigate('/')}> {/* Navega para a página inicial */}
         <TbSquareArrowLeftFilled size={40} color="#fff" />
       </div>
 
-
-      <main className='second-screen'>
+      <main className="second-screen">
         <div className="destinos-container">
           <div className="roteiro">
             <h2>Roteiro da Viagem</h2>
@@ -63,6 +70,17 @@ const Destinos = () => {
           <Dropdown
             value={selectedCountry1}
             onChange={(e) => setSelectedCountry1(e.value)}
+            options={countries}
+            optionLabel="name"
+            placeholder="Quantas Pessoas"
+            valueTemplate={selectedCountryTemplate}
+            itemTemplate={countryOptionTemplate}
+            className="w-full md:w-14rem"
+          />
+
+          <Dropdown
+            value={selectedCountry2}
+            onChange={(e) => setSelectedCountry2(e.value)}
             options={countriesfilter}
             optionLabel="name"
             placeholder="Categorias"
@@ -73,7 +91,7 @@ const Destinos = () => {
 
           {/* Campo para Valores de Atrações */}
           <div className="valores-container">
-            <h3>Valores de Atrações:</h3>
+            <h3>Preços:</h3>
             <input
               type="range"
               min="0"
@@ -108,7 +126,12 @@ const Destinos = () => {
               />
             </div>
           </div>
+        {/* Botão para navegar para a página de Resultado */}
+        <Link to="/resultado">
+          <button className="button">Ver Resultados</button>
+        </Link>
         </div>
+
       </main>
     </>
   );

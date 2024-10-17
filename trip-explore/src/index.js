@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './index.css';
 import './home.css';
-import { IoPersonCircleOutline } from 'react-icons/io5'; 
+import { IoPersonCircleOutline } from 'react-icons/io5';
 import { MdHelp } from 'react-icons/md';
-import Login from './Login'; 
+import Login from './Login';
 import Destinos from './Destinos';
-import Lista from './lista'; // Alterar para minúsculas
+import Resultado from './Resultado';
+import Lista from './Lista'; // Alterar para minúsculas
 
 const App = () => {
   // Simulando a variável de login
@@ -41,12 +42,11 @@ const App = () => {
       <div>
         {/* Botão de hambúrguer e Logo */}
         <div className="home_logo">
-          <button 
-            type="button" 
-            role="button" 
-            aria-label="navegação" 
-            className={`lines-button ${isMenuOpen ? 'open' : ''}`} 
-            id="hamburger-mobile" 
+          <button
+            type="button"
+            aria-label="navegação"
+            className={`lines-button ${isMenuOpen ? 'open' : ''}`}
+            id="hamburger-mobile"
             onClick={toggleMenu}
           >
             <span className="lines"></span>
@@ -77,12 +77,16 @@ const App = () => {
           </ul>
         </nav>
 
-        <div className="home-container">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div>
+                <div className='home'>
+                  <h1>Trip-Explorer</h1>
+                </div>
+
+                <div className="home-container">
                   <main className='main'>
                     <h1>Que bom te ver por aqui! Para onde vamos hoje?</h1>
 
@@ -112,16 +116,17 @@ const App = () => {
                   <Link to="/destinos">
                     <button className="button">Encontrar Destinos!</button>
                   </Link>
-                </>
-              }
-            />
+                </div>
+              </div>
+            }
+          />
 
-            {/* Rotas adicionais */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/destinos" element={<Destinos />} />
-            <Route path="/lista" element={<Lista isLoggedIn={isLoggedIn} />} /> {/* Nova rota de lista */}
-          </Routes>
-        </div>
+          {/* Rotas adicionais */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/destinos" element={<Destinos />} />
+          <Route path="/resultado" element={<Resultado />} />
+          <Route path="/lista" element={<Lista isLoggedIn={isLoggedIn} />} /> {/* Nova rota de lista */}
+        </Routes>
       </div>
     </Router>
   );

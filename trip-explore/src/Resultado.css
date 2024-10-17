@@ -1,0 +1,12 @@
+.resultado-container{
+    margin: auto;
+    align-items: center;
+    margin-top: 70px;
+    max-width: 520px;
+    max-width: 720px;
+    background-color: #052096b2;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid #1c35a3;
+}

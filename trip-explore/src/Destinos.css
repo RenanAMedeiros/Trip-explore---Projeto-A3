@@ -1,7 +1,7 @@
-.inconone{
+.iconone{
     padding: 20px;
     width: 20px;
-    height: 24px;
+    height: 2px;
 }
 
 .second-screen {
@@ -155,4 +155,8 @@
 /* Estilo para a lista de sugestões do AutoComplete */
 .p-autocomplete .p-autocomplete-items {
     border-radius: 12px; /* Borda arredondada para as sugestões */
+}
+
+.button{
+   margin-top: 20px;
 }
