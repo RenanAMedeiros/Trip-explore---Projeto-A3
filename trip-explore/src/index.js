@@ -8,7 +8,7 @@ import { MdHelp } from 'react-icons/md';
 import Login from './Login';
 import Destinos from './Destinos';
 import Resultado from './Resultado';
-import Lista from './Lista'; // Alterar para minúsculas
+import Lista from './lista'; // Alterar para minúsculas
 
 const App = () => {
   // Simulando a variável de login
