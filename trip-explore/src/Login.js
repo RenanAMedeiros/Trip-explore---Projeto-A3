@@ -1,31 +1,82 @@
-// Login.js
-import React from 'react';
-import { TbSquareArrowLeftFilled } from 'react-icons/tb'; // Ícone de seta
-import { useNavigate } from 'react-router-dom'; // Importa o hook para navegação
+import React, { useState } from 'react';
+import { TbSquareArrowLeftFilled } from 'react-icons/tb';
+import { BiErrorCircle } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
-  const navigate = useNavigate(); // Hook para navegação
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
+
+  const validarEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validarCampos = () => {
+    let errors = {};
+
+    if (email.trim() === '') {
+      errors.email = 'Campo obrigatório';
+    } else if (!validarEmail(email)) {
+      errors.email = 'E-mail inválido';
+    }
+
+    if (password.trim() === '') {
+      errors.password = 'Campo obrigatório';
+    } else if (password.length < 8) {
+      errors.password = 'A senha deve ter no mínimo 8 caracteres';
+    }
+
+    setError(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleLogin = () => {
+    if (validarCampos()) {
+      alert('Login realizado com sucesso!');
+    }
+  };
+
   return (
-
     <>
-
-      <div className="iconone" onClick={() => navigate('/')}> {/* Navega para a página inicial */}
+      <div className="iconone" onClick={() => navigate('/')}>
         <TbSquareArrowLeftFilled size={40} color="#fff" />
       </div>
 
       <div className="login-container">
         <h2>Login</h2>
-        <label htmlFor="username">Usuário:</label>
-        <input type="text" id="username" className="input-text" />
 
-        <label htmlFor="password">Senha:</label>
-        <input type="password" id="password" className="input-text" />
+        <div className="input-container">
+          <label htmlFor="email">Usuário ou E-mail:</label>
+          <input
+            type="text"
+            id="email"
+            className={`input-text ${error.email ? 'error' : ''}`}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {error.email && <span className="required-message">{error.email}</span>}
+          {error.email && <BiErrorCircle className="input-icon" />}
+        </div>
 
-        <button className="button">Entrar</button>
+        <div className="input-container">
+          <label htmlFor="password">Senha:</label>
+          <input
+            type="password"
+            id="password"
+            className={`input-text ${error.password ? 'error' : ''}`}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error.password && <span className="required-message">{error.password}</span>}
+          {error.password && <BiErrorCircle className="input-icon" />}
+        </div>
+
+        <button className="button" onClick={handleLogin}>Entrar</button>
       </div>
-
-
     </>
   );
 };
