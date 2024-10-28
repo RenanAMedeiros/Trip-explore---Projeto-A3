@@ -1,14 +1,17 @@
 {
     "name": "backend",
     "version": "1.0.0",
-    "description": "Servidor Express para servir APIs e React",
+    "description": "",
     "main": "index.js",
     "scripts": {
+      "init-db": "node database/initDB.js",
       "start": "node index.js"
     },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
     "dependencies": {
       "express": "^4.21.1",
-      "path": "^0.12.7"
-    },
-    "license": "ISC"
+      "pg": "^8.13.1"
+    }
   }
