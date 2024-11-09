@@ -7,7 +7,7 @@ async function initDB() {
 
         // Criação da tabela de logs
         await client.query(`
-            CREATE TABLE IF NOT EXISTS lonpm i gs (
+            CREATE TABLE IF NOT EXISTS logs (
                 cod_id SERIAL PRIMARY KEY,
                 usuario_id INT NULL,
                 date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
