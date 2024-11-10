@@ -94,7 +94,13 @@ const App = () => {
                     <label htmlFor="descricao" className="label">
                       Digite seu destino:
                     </label>
-                    <input type="text" id="descricao" className="input-text" placeholder='Ex: São Paulo, Brasil' />
+                    <input
+                      type="text"
+                      id="descricao"
+                      className="input-text"
+                      placeholder="Ex: São Paulo, Brasil"
+                      
+                    />
 
                     <div className="flex-row">
                       <div className="flex-col">
@@ -125,7 +131,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/destinos" element={<Destinos />} />
           <Route path="/resultado" element={<Resultado />} />
-          <Route path="/lista" element={<Lista isLoggedIn={isLoggedIn} />} /> {/* Nova rota de lista */}
+          <Route path="/lista" element={<Lista isLoggedIn={isLoggedIn} />} />
         </Routes>
       </div>
     </Router>
