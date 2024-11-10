@@ -23,6 +23,9 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
 
+const logsRoutes = require('./rotas/LogsRoutes');
+app.use('/api', logsRoutes);  // Isso permite acessar rotas do LogsRoutes com "/api/..."
+
 console.log('API Key loaded:', !!process.env.GOOGLE_API_KEY);
 
 // Configurações do servidor

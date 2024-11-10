@@ -1,11 +1,13 @@
+require('dotenv').config(); // Carrega as variáveis do .env
 const { Pool } = require('pg');
 
-// Configuração do Pool
+// Configuração do Pool usando variáveis de ambiente
 const pool = new Pool({
-    host: 'localhost',
-    port: 5432,
-    database: 'seu_banco',
-    user: 'seu_usuario',
-    password: 'sua_senha',
-    ssl: { rejectUnauthorized: false },
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER, // Variável de ambiente para o usuário
+    password: process.env.DB_PASSWORD, // Variável de ambiente para a senha
 });
+
+module.exports = pool;
