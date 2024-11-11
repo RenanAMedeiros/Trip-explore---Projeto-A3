@@ -5,7 +5,7 @@ const app = express();
 
 
 // Adicionar parser de JSON
-app.use(express.json());
+// app.use(express.json());
 
 // Importar as rotas da API
 const helloRoutes = require('./rotas/helloRoutes');
@@ -15,13 +15,13 @@ const geminiRoutes = require('./rotas/GeminiRoutes');
 app.use(express.json());
 app.use('/api/travel', geminiRoutes);
 
-// Servir os arquivos estáticos do frontend (build do React)
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+// // Servir os arquivos estáticos do frontend (build do React)
+// app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-// Para qualquer rota que não comece com /api, sirva o React
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-});
+// // Para qualquer rota que não comece com /api, sirva o React
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+// });
 
 const logsRoutes = require('./rotas/LogsRoutes');
 app.use('/api', logsRoutes);  // Isso permite acessar rotas do LogsRoutes com "/api/..."
