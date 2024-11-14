@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './index.css';
 import './home.css';
 import { IoPersonCircleOutline } from 'react-icons/io5';
-import { MdHelp } from 'react-icons/md';
 import Login from './Login';
 import Destinos from './Destinos';
 import Resultado from './Resultado';
@@ -56,13 +55,9 @@ const App = () => {
             {/* Botão redirecionando para a página de login */}
             <Link to="/login">
               <div className="buttonone">
-                <IoPersonCircleOutline size={30} color="#ebe7e7" />
+                <IoPersonCircleOutline size={35} color="#ebe7e7" />
               </div>
             </Link>
-            {/* Outro botão */}
-            <div className="buttontwo">
-              <MdHelp size={30} color="#ebe7e7" />
-            </div>
           </div>
         </div>
 

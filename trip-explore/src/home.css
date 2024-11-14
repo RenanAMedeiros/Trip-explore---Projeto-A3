@@ -31,16 +31,16 @@
     padding-top: 13px;
 }
 
-.buttonone,
-.buttontwo {
+.buttonone {
     transition: transform 0.5s;
     display: flex;
     justify-content: center;
-    align-items: center
+    align-items: center;
+    padding-bottom: 10px;
+    
 }
 
-.buttonone:hover,
-.buttontwo:hover {
+.buttonone:hover {
     transform: scale(1.2);
 }
 

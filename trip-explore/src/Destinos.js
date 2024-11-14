@@ -3,6 +3,7 @@ import './Destinos.css';
 import { Dropdown } from 'primereact/dropdown';
 import { TbSquareArrowLeftFilled } from 'react-icons/tb'; // Ícone de seta
 import { useNavigate, Link } from 'react-router-dom'; // Para navegar programaticamente
+import { InputNumber } from 'primereact/inputnumber';
 
 const Destinos = () => {
   const [selectedCountry1, setSelectedCountry1] = useState(null);
@@ -90,16 +91,16 @@ const Destinos = () => {
           />
 
           {/* Campo para Valores de Atrações */}
-          <div className="valores-container">
+          <div className="p-inputprice">
             <h3>Preços:</h3>
-            <input
-              type="range"
-              min="0"
-              max="100000"
+            <span className="p-inputprice-addon">R$</span>
+            <InputNumber
               value={valorAtracoes}
-              onChange={handleValorChange}
+              onValueChange={(e) => setValorAtracoes(e.value)}
+              mode="decimal"
+              locale='pt-BR'
+              placeholder="Preços"
             />
-            <p>Valor selecionado: R$ {valorAtracoes}</p>
           </div>
 
           {/* Campos para Hora de Chegada e Hora de Saída */}
@@ -126,10 +127,10 @@ const Destinos = () => {
               />
             </div>
           </div>
-        {/* Botão para navegar para a página de Resultado */}
-        <Link to="/resultado">
-          <button className="button">Ver Resultados</button>
-        </Link>
+          {/* Botão para navegar para a página de Resultado */}
+          <Link to="/resultado">
+            <button className="button">Ver Resultados</button>
+          </Link>
         </div>
 
       </main>
