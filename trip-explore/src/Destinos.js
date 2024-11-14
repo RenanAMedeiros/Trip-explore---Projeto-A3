@@ -93,13 +93,13 @@ const Destinos = () => {
           {/* Campo para Valores de Atrações */}
           <div className="p-inputprice">
             <h3>Preços:</h3>
-            <span className="p-inputprice-addon">R$</span>
+            <span className="p-inputnumber-input">$</span>
             <InputNumber
               value={valorAtracoes}
               onValueChange={(e) => setValorAtracoes(e.value)}
               mode="decimal"
-              locale='pt-BR'
-              placeholder="Preços"
+              locale="pt-BR"
+              placeholder="Digite o valor"
             />
           </div>
 
