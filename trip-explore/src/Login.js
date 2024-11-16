@@ -4,6 +4,7 @@ import { BiErrorCircle } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,9 +35,35 @@ const Login = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleLogin = () => {
+  const handleLogin =  async() => {
     if (validarCampos()) {
-      alert('Login realizado com sucesso!');
+      try{
+        const response = await fetch('http://localhost:5000/api/auth/login',{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({
+            login: email,
+            password: password,
+            
+          }),
+        });
+
+        const data = await response.json();
+
+        if(response.ok){
+          localStorage.setItem('token', data.token);
+          alert('Login realizado com sucesso!');
+          navigate('/home');  
+        }else{
+          setError({email: '', password: 'Usuário inválido'});
+        }
+      }catch(error){
+        console.error('Erro ao fazer login', error);
+        setError({email:'', password: 'Erro no servidor'});
+      }
     }
   };
 

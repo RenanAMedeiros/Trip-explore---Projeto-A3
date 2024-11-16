@@ -28,3 +28,5 @@ CREATE TABLE logs (
     details TEXT,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+
