@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import './index.css';
-import './home.css';
+import './frontend/index.css';
+import './frontend/home.css';
 import { IoPersonCircleOutline } from 'react-icons/io5';
-import Login from './Login';
-import Destinos from './Destinos';
-import Resultado from './Resultado';
-import Lista from './Lista'; // Alterar para minúsculas
+import Login from './frontend/Login';
+import Destinos from './frontend/Destinos';
+import Resultado from './frontend/Resultado';
+import Lista from './frontend/lista'; // Alterar para minúsculas
 
 const App = () => {
   // Simulando a variável de login

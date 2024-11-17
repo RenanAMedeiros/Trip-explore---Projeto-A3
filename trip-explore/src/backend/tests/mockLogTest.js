@@ -24,10 +24,10 @@ async function mockRequest() {
     try {
         const prompt = { prompt: "Qual é a capital da Argentina?" };
         //interrompe a requisicao para um mock
-        nock('http://localhost:3000')
+        nock('http://localhost:5000')
             .post('/pergunte-ao-gemini-teste', prompt)
             .reply(200, { completion: "Qual é a capital da Argentina?" });
-        const response = await axios.post('http://localhost:3000/pergunte-ao-gemini-teste', prompt);
+        const response = await axios.post('http://localhost:5000/pergunte-ao-gemini-teste', prompt);
         console.log('Resposta do Gemini:', response.data);
         // Inserir um log no banco
         await insertMockLog('consultar', JSON.stringify(response.data));

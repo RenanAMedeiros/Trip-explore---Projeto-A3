@@ -29,8 +29,8 @@ app.use('/api', logsRoutes);  // Isso permite acessar rotas do LogsRoutes com "/
 console.log('API Key loaded:', !!process.env.GOOGLE_API_KEY);
 
 // Configurações do servidor
-app.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000');
+app.listen(5000, () => {
+  console.log('Servidor rodando na porta 5000');
 });
 
 
