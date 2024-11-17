@@ -1,18 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import './index.css';
 import './home.css';
-import { IoPersonCircleOutline } from 'react-icons/io5';
+import { IoPersonCircleOutline, IoLogOutOutline } from 'react-icons/io5';
 import Login from './Login';
 import Destinos from './Destinos';
 import Resultado from './Resultado';
 import Lista from './lista'; // Alterar para minúsculas
 
+const ButtonHome = ({ isLoggedIn, handleLogout }) => {
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    if (isLoggedIn) {
+      alert('Você já está logado!'); // Mostrar mensagem
+      navigate('/'); // Redirecionar para a página inicial
+    } else {
+      navigate('/login'); // Redirecionar para a página de login
+    }
+  };
+
+  return (
+    <div id="buttonhome">
+      {isLoggedIn ? (
+        <button className="button-logout" onClick={handleLogout}>
+          <IoLogOutOutline size={20} color="#ebe7e7" style={{ marginRight: '8px' }} />
+          Logout
+        </button>
+      ) : (
+        <div className="buttonone" onClick={handleRedirect}>
+          <IoPersonCircleOutline size={35} color="#ebe7e7" />
+        </div>
+      )}
+    </div>
+  );
+};
+
 const App = () => {
-  // Simulando a variável de login
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para abrir/fechar o menu
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token); // Atualiza o estado com base na existência do token
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove o token
+    setIsLoggedIn(false); // Atualiza o estado
+    alert('Você foi deslogado com sucesso!'); // Mensagem opcional
+    window.location.href = '/'; // Redireciona para a página inicial
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen); // Alterna entre abrir e fechar o menu
@@ -36,6 +75,58 @@ const App = () => {
     };
   }, [isMenuOpen]);
 
+  const HomePage = () => {
+    const navigate = useNavigate(); // Declare o useNavigate aqui
+
+    return (
+      <div>
+        <div className="home">
+          <h1>Trip-Explorer</h1>
+        </div>
+
+        <div className="home-container">
+          <main className="main">
+            <h1>Que bom te ver por aqui! Para onde vamos hoje?</h1>
+
+            <p>{isLoggedIn ? 'Usuário Logado' : 'Faça login para continuar'}</p>
+            <label htmlFor="descricao" className="label">
+              Digite seu destino:
+            </label>
+            <input
+              type="text"
+              id="descricao"
+              className="input-text"
+              placeholder="Ex: São Paulo, Brasil"
+            />
+
+            <div className="flex-row">
+              <div className="flex-col">
+                <label htmlFor="dataInicio" className="label">
+                  Data de Ida:
+                </label>
+                <input type="date" id="dataInicio" className="input-date" />
+              </div>
+
+              <div className="flex-col">
+                <label htmlFor="dataFim" className="label">
+                  Data de Volta (Opcional):
+                </label>
+                <input type="date" id="dataFim" className="input-date" />
+              </div>
+            </div>
+          </main>
+
+          <button
+            className="button"
+            onClick={() => navigate('/destinos')} // Agora navigate está no escopo
+          >
+            Encontrar Destinos!
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Router>
       <div>
@@ -51,14 +142,7 @@ const App = () => {
             <span className="lines"></span>
           </button>
 
-          <div id="buttonhome">
-            {/* Botão redirecionando para a página de login */}
-            <Link to="/login">
-              <div className="buttonone">
-                <IoPersonCircleOutline size={35} color="#ebe7e7" />
-              </div>
-            </Link>
-          </div>
+          <ButtonHome isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         </div>
 
         {/* Menu lateral que abre ao clicar no botão de hambúrguer */}
@@ -73,56 +157,7 @@ const App = () => {
         </nav>
 
         <Routes>
-          <Route
-            path="/"
-            element={
-              <div>
-                <div className='home'>
-                  <h1>Trip-Explorer</h1>
-                </div>
-
-                <div className="home-container">
-                  <main className='main'>
-                    <h1>Que bom te ver por aqui! Para onde vamos hoje?</h1>
-
-                    <p>Usuário Logado (Subir variável Após implementar Autenticação)</p>
-                    <label htmlFor="descricao" className="label">
-                      Digite seu destino:
-                    </label>
-                    <input
-                      type="text"
-                      id="descricao"
-                      className="input-text"
-                      placeholder="Ex: São Paulo, Brasil"
-                      
-                    />
-
-                    <div className="flex-row">
-                      <div className="flex-col">
-                        <label htmlFor="dataInicio" className="label">
-                          Data de Ida:
-                        </label>
-                        <input type="date" id="dataInicio" className="input-date" />
-                      </div>
-
-                      <div className="flex-col">
-                        <label htmlFor="dataFim" className="label">
-                          Data de Volta (Opcional):
-                        </label>
-                        <input type="date" id="dataFim" className="input-date" />
-                      </div>
-                    </div>
-                  </main>
-
-                  <Link to="/destinos">
-                    <button className="button">Encontrar Destinos!</button>
-                  </Link>
-                </div>
-              </div>
-            }
-          />
-
-          {/* Rotas adicionais */}
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/destinos" element={<Destinos />} />
           <Route path="/resultado" element={<Resultado />} />

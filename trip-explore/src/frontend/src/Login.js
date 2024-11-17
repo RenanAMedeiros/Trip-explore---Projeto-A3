@@ -4,25 +4,17 @@ import { BiErrorCircle } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
-
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
-  const [error, setError] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
   const navigate = useNavigate();
-
-  const validarEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
 
   const validarCampos = () => {
     let errors = {};
 
-    if (email.trim() === '') {
-      errors.email = 'Campo obrigatório';
-    } else if (!validarEmail(email)) {
-      errors.email = 'E-mail inválido';
+    if (username.trim() === '') {
+      errors.username = 'Campo obrigatório';
     }
 
     if (password.trim() === '') {
@@ -35,34 +27,33 @@ const Login = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleLogin =  async() => {
+  const handleLogin = async () => {
     if (validarCampos()) {
-      try{
-        const response = await fetch('http://localhost:5000/api/auth/login',{
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
           body: JSON.stringify({
-            login: email,
-            password: password,
-            
+            username, // Backend espera "username"
+            password,
           }),
         });
 
         const data = await response.json();
 
-        if(response.ok){
+        if (response.ok) {
           localStorage.setItem('token', data.token);
           alert('Login realizado com sucesso!');
-          navigate('/home');  
-        }else{
-          setError({email: '', password: 'Usuário inválido'});
+          navigate('/'); // Redirecionar para a página principal
+          window.location.reload(); // Recarregar a página
+        } else {
+          setError({ general: data.error || 'Usuário ou senha inválidos' });
         }
-      }catch(error){
-        console.error('Erro ao fazer login', error);
-        setError({email:'', password: 'Erro no servidor'});
+      } catch (error) {
+        console.error('Erro ao fazer login:', error);
+        setError({ general: 'Erro no servidor. Tente novamente mais tarde.' });
       }
     }
   };
@@ -76,17 +67,19 @@ const Login = () => {
       <div className="login-container">
         <h2>Login</h2>
 
+        {error.general && <div className="error-message">{error.general}</div>}
+
         <div className="input-container">
-          <label htmlFor="email">Usuário ou E-mail:</label>
+          <label htmlFor="username">Usuário:</label>
           <input
             type="text"
-            id="email"
-            className={`input-text ${error.email ? 'error' : ''}`}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            id="username"
+            className={`input-text ${error.username ? 'error' : ''}`}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
-          {error.email && <span className="required-message">{error.email}</span>}
-          {error.email && <BiErrorCircle className="input-icon" />}
+          {error.username && <span className="required-message">{error.username}</span>}
+          {error.username && <BiErrorCircle className="input-icon" />}
         </div>
 
         <div className="input-container">

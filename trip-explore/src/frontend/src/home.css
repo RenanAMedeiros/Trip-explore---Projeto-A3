@@ -114,3 +114,23 @@
 .button:hover {
     background-color: #061868;
 }
+.button-logout {
+    display: flex;
+    align-items: center;
+    background-color: #1c35a3;
+    color: #ebe7e7;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .button-logout:hover {
+    background-color: #1c35a3;
+  }
+
+  .button-logout svg {
+    font-size: 100px; /* Aumentar o tamanho do ícone */
+    margin-right: 10px; /* Espaço entre o ícone e o texto */
+  }
