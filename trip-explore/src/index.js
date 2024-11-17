@@ -4,10 +4,10 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './frontend/index.css';
 import './frontend/home.css';
 import { IoPersonCircleOutline } from 'react-icons/io5';
-import Login from './frontend/Login';
-import Destinos from './frontend/Destinos';
-import Resultado from './frontend/Resultado';
-import Lista from './frontend/lista'; // Alterar para minúsculas
+import Login from './frontend/src/Login';
+import Destinos from './frontend/src/Destinos';
+import Resultado from './frontend/src/Resultado';
+import Lista from './frontend/src/lista'; // Alterar para minúsculas
 
 const App = () => {
   // Simulando a variável de login
