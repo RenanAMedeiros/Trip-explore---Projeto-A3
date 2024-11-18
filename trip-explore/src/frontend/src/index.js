@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; // exportação nomeada Biblioteca para decodificar o token JWT
+import { jwtDecode } from 'jwt-decode';
 import './index.css';
 import './home.css';
 import { IoPersonCircleOutline, IoLogOutOutline } from 'react-icons/io5';
 import Login from './Login';
 import Destinos from './Destinos';
 import Resultado from './Resultado';
-import Lista from './lista'; // Alterar para minúsculas
+import Lista from './lista';
 
+// Componente do botão de login/logout
 const ButtonHome = ({ isLoggedIn, handleLogout, userName }) => {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
     if (isLoggedIn) {
-      alert(`Você já está logado como ${userName}`); // Mostrar mensagem
-      navigate('/'); // Redirecionar para a página inicial
+      alert(`Você já está logado como ${userName}`);
+      navigate('/');
     } else {
-      navigate('/login'); // Redirecionar para a página de login
+      navigate('/login');
     }
   };
 
@@ -38,63 +39,117 @@ const ButtonHome = ({ isLoggedIn, handleLogout, userName }) => {
   );
 };
 
+// Componente para exibir o histórico de buscas
+const SearchHistory = ({ isLoadingLogs, error, logs, formatPrompt }) => (
+  <div className="search-history">
+    <h3>Histórico de Buscas</h3>
+    <ul>
+      {isLoadingLogs ? (
+        <li>Carregando...</li>
+      ) : error ? (
+        <li className="error">{error}</li>
+      ) : logs.length > 0 ? (
+        logs.map((log) => (
+          <li key={log.cod_id}>
+            {formatPrompt(log.prompt)} - {new Date(log.date).toLocaleString()}
+          </li>
+        ))
+      ) : (
+        <>
+          <li>Logar para visualizar</li>
+          <li>Destinos Buscados.</li>
+        </>
+      )}
+    </ul>
+  </div>
+);
+
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState(''); // Armazenar o nome do usuário logado
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para abrir/fechar o menu
+  const [userName, setUserName] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [logs, setLogs] = useState([]);
+  const [isLoadingLogs, setIsLoadingLogs] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-        try {
-            const decoded = jwtDecode(token); // Decodifica o token JWT
-            setIsLoggedIn(true);
-            setUserName(decoded.name || 'Usuário'); // Configura o nome do usuário
-            
-            // Loga no terminal e no console do navegador
-            console.log(`Usuário logado: ${decoded.name || 'Usuário'}`);
-            alert(`Bem-vindo, ${decoded.name || 'Usuário'}!`);
-        } catch (error) {
-            console.error('Erro ao decodificar o token:', error);
-            setIsLoggedIn(false);
-            setUserName('');
-        }
+      try {
+        const decoded = jwtDecode(token);
+        setIsLoggedIn(true);
+        setUserName(decoded.name || 'Usuário');
+      } catch (err) {
+        console.error('Erro ao decodificar o token:', err);
+        setIsLoggedIn(false);
+        setUserName('');
+      }
     }
-}, []);
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove o token
-    setIsLoggedIn(false); // Atualiza o estado
-    setUserName(''); // Limpa o nome do usuário
-    alert('Você foi deslogado com sucesso!'); // Mensagem opcional
-    window.location.href = '/'; // Redireciona para a página inicial
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    setUserName('');
+    setLogs([]);
+    alert('Você foi deslogado com sucesso!');
+    window.location.href = '/';
   };
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen); // Alterna entre abrir e fechar o menu
+    setIsMenuOpen(!isMenuOpen);
+    if (!isMenuOpen && isLoggedIn) fetchLogs();
   };
 
-  const closeMenu = () => {
-    setIsMenuOpen(false); // Função para fechar o menu
-  };
+  const fetchLogs = async () => {
+    setIsLoadingLogs(true);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setError('Necessário fazer login');
+      setIsLoadingLogs(false);
+      return;
+    }
 
-  // Fechar o menu ao clicar fora dele
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (isMenuOpen && !document.querySelector('.side-menu').contains(event.target)) {
-        closeMenu();
+    try {
+      const response = await fetch('/api/consultar', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error('Erro ao buscar logs');
+
+      const data = await response.json();
+
+      if (data.resultado) {
+        const decoded = jwtDecode(token);
+        const userId = decoded.id;
+
+        const logsFiltrados = data.resultado.filter((log) => log.usuario_id === userId);
+
+        setLogs(logsFiltrados);
+      } else {
+        setLogs([]);
+        setError('Nenhum log encontrado');
       }
-    };
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoadingLogs(false);
+    }
+  };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isMenuOpen]);
+  const formatPrompt = (prompt) => {
+    try {
+      const parsedPrompt = JSON.parse(prompt);
+      return `Destino: ${parsedPrompt.destination}, Dias: ${parsedPrompt.days}, Orçamento: ${parsedPrompt.budget}, Estilo: ${parsedPrompt.travelStyle}`;
+    } catch {
+      return 'Erro ao formatar prompt';
+    }
+  };
 
   const HomePage = () => {
-    const navigate = useNavigate(); // Declare o useNavigate aqui
-
+    const navigate = useNavigate();
     return (
       <div>
         <div className="home">
@@ -104,41 +159,12 @@ const App = () => {
         <div className="home-container">
           <main className="main">
             <h1>Que bom te ver por aqui! Para onde vamos hoje?</h1>
-
-            <p>
-              {isLoggedIn
-                ? `Bem-vindo, ${userName}!`
-                : 'Faça login para continuar'}
-            </p>
-            <label htmlFor="descricao" className="label">
-              Digite seu destino:
-            </label>
-            <input
-              type="text"
-              id="descricao"
-              className="input-text"
-              placeholder="Ex: São Paulo, Brasil"
-            />
-
-            <div className="flex-row">
-            <div className="flex-col">
-              <label htmlFor="dataInicio" className="label">
-                Quantidade de Dias:
-              </label>
-              <input
-                type="number"
-                id="dataInicio"
-                className="input-date"
-                min="0"
-                onChange={(e) => {
-                  const value = Math.max(0, parseInt(e.target.value) || 0); // Garante que seja >= 0
-                  e.target.value = value; // Atualiza o valor do input
-                }}
-              />
-            </div>
-            </div>
+            <p>{isLoggedIn ? `Bem-vindo, ${userName}!` : 'Faça login para continuar'}</p>
+            <label htmlFor="descricao" className="label">Digite seu destino:</label>
+            <input type="text" id="descricao" className="input-text" placeholder="Ex: São Paulo, Brasil" />
+            <label htmlFor="dataInicio" className="label">Quantidade de Dias:</label>
+            <input type="number" id="dataInicio" className="input-date" min="0" />
           </main>
-
           <button
             className="button"
             onClick={() => {
@@ -164,8 +190,7 @@ const App = () => {
   return (
     <Router>
       <div>
-        {/* Botão de hambúrguer e Logo */}
-        <div className="home_logo">
+        <header className="home_logo">
           <button
             type="button"
             aria-label="navegação"
@@ -175,25 +200,17 @@ const App = () => {
           >
             <span className="lines"></span>
           </button>
-
-          <ButtonHome
-            isLoggedIn={isLoggedIn}
-            handleLogout={handleLogout}
-            userName={userName}
-          />
-        </div>
-
-        {/* Menu lateral que abre ao clicar no botão de hambúrguer */}
+          <ButtonHome isLoggedIn={isLoggedIn} handleLogout={handleLogout} userName={userName} />
+        </header>
         <nav className={`side-menu ${isMenuOpen ? 'open' : ''}`}>
-          {/* Botão de fechar no topo do menu */}
-          <button className="close-btn" onClick={closeMenu}>X</button>
-          <ul>
-            <h3>Para Visualizar Histórico</h3>
-            <p></p>
-            <h3>Necessário Logar</h3>
-          </ul>
+          <button className="close-btn" onClick={() => setIsMenuOpen(false)}>X</button>
+          <SearchHistory
+            isLoadingLogs={isLoadingLogs}
+            error={error}
+            logs={logs}
+            formatPrompt={formatPrompt}
+          />
         </nav>
-
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css'; // Importar o CSS aqui
 
-const App = () => {
+const Lista = ({ logs, isLoggedIn }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -12,12 +12,12 @@ const App = () => {
     <div>
       <header>
         {/* Botão de hambúrguer estilizado */}
-        <button 
-          type="button" 
-          role="button" 
-          aria-label="navegação" 
-          className={`lines-button ${isMenuOpen ? 'open' : ''}`} 
-          id="hamburger-mobile" 
+        <button
+          type="button"
+          role="button"
+          aria-label="navegação"
+          className={`lines-button ${isMenuOpen ? 'open' : ''}`}
+          id="hamburger-mobile"
           onClick={toggleMenu}
         >
           <span className="lines"></span>
@@ -27,11 +27,22 @@ const App = () => {
 
       {/* Menu lateral */}
       <nav className={`side-menu ${isMenuOpen ? 'open' : ''}`}>
+        <button className="close-btn" onClick={toggleMenu}>X</button>
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Destinos</a></li>
-          <li><a href="#">Sobre</a></li>
-          <li><a href="#">Contato</a></li>
+          <h3>Histórico de Buscas</h3>
+          {isLoggedIn ? (
+            logs.length > 0 ? (
+              logs.map((log) => (
+                <li key={log.cod_id}>
+                  {log.prompt} - {new Date(log.date).toLocaleString()}
+                </li>
+              ))
+            ) : (
+              <li>Nenhum log encontrado</li>
+            )
+          ) : (
+            <li>Necessário fazer login</li>
+          )}
         </ul>
       </nav>
 
@@ -44,4 +55,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Lista;
