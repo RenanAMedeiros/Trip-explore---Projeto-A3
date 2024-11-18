@@ -40,29 +40,46 @@ const ButtonHome = ({ isLoggedIn, handleLogout, userName }) => {
 };
 
 // Componente para exibir o histórico de buscas
-const SearchHistory = ({ isLoadingLogs, error, logs, formatPrompt }) => (
-  <div className="search-history">
-    <h3>Histórico de Buscas</h3>
-    <ul>
-      {isLoadingLogs ? (
-        <li>Carregando...</li>
-      ) : error ? (
-        <li className="error">{error}</li>
-      ) : logs.length > 0 ? (
-        logs.map((log) => (
-          <li key={log.cod_id}>
-            {formatPrompt(log.prompt)} - {new Date(log.date).toLocaleString()}
-          </li>
-        ))
-      ) : (
-        <>
-          <li>Logar para visualizar</li>
-          <li>Destinos Buscados.</li>
-        </>
-      )}
-    </ul>
-  </div>
-);
+const SearchHistory = ({ isLoadingLogs, error, logs, formatPrompt, isLoggedIn }) => {
+  const navigate = useNavigate();
+
+  const handleLogClick = (log) => {
+    // Salva o response do log no localStorage
+    localStorage.setItem('historyData', JSON.stringify({ cod_id: log.cod_id, response: log.response }));
+    localStorage.removeItem('searchData'); // Remove searchData para evitar conflitos
+    navigate('/resultado');
+  };
+
+  return (
+    <div className="search-history">
+      <h3>Histórico de Buscas</h3>
+      <ul>
+        {!isLoggedIn ? (
+          <>
+            <li>Logar para visualizar</li>
+            <li>Destinos Buscados.</li>
+          </>
+        ) : isLoadingLogs ? (
+          <li>Carregando...</li>
+        ) : error ? (
+          <li className="error">{error}</li>
+        ) : logs.length > 0 ? (
+          logs.map((log) => (
+            <li
+              key={log.cod_id}
+              onClick={() => handleLogClick(log)}
+              style={{ cursor: 'pointer', textDecoration: 'underline' }}
+            >
+              {formatPrompt(log.prompt)} - {new Date(log.date).toLocaleString()}
+            </li>
+          ))
+        ) : (
+          <li>Nenhum histórico disponível</li>
+        )}
+      </ul>
+    </div>
+  );
+};
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -150,6 +167,12 @@ const App = () => {
 
   const HomePage = () => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+      // Limpa o searchData ao voltar para a Home
+      localStorage.removeItem('searchData');
+    }, []);
+
     return (
       <div>
         <div className="home">
@@ -172,8 +195,7 @@ const App = () => {
               const days = document.getElementById('dataInicio').value;
 
               if (destination && days) {
-                localStorage.setItem('destination', destination);
-                localStorage.setItem('days', days);
+                localStorage.setItem('searchData', JSON.stringify({ destination, days }));
                 navigate('/destinos');
               } else {
                 alert('Por favor, preencha todos os campos!');
@@ -209,6 +231,7 @@ const App = () => {
             error={error}
             logs={logs}
             formatPrompt={formatPrompt}
+            isLoggedIn={isLoggedIn}
           />
         </nav>
         <Routes>

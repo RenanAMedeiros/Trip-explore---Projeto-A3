@@ -27,23 +27,26 @@ const Resultado = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const destination = localStorage.getItem('destination');
-      const days = localStorage.getItem('days');
-      const budget = localStorage.getItem('budget');
-      const travelStyle = localStorage.getItem('travelStyle');
+      const historyData = JSON.parse(localStorage.getItem('historyData'));
+      const searchData = JSON.parse(localStorage.getItem('searchData'));
 
-      if (!destination || !days || !budget || !travelStyle) {
+      if (historyData) {
+        // Renderiza diretamente o response do histórico
+        setResult(JSON.parse(historyData.response));
+        setLoading(false);
+        localStorage.removeItem('historyData'); // Limpa o historyData após o uso
+        return;
+      }
+
+      if (!searchData) {
         alert('Informações incompletas! Retornando para a página inicial.');
         navigate('/');
         return;
       }
 
-      const prompt = {
-        destination,
-        days,
-        budget,
-        travelStyle,
-      };
+      const { destination, days, budget, travelStyle } = searchData;
+
+      const prompt = { destination, days, budget, travelStyle };
 
       try {
         const token = localStorage.getItem('token'); // Pegar o token do usuário logado

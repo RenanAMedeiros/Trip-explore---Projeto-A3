@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Destinos.css';
 import { Dropdown } from 'primereact/dropdown';
 import { TbSquareArrowLeftFilled } from 'react-icons/tb'; // Ícone de seta
@@ -9,13 +9,16 @@ const Destinos = () => {
   const [selectedCountry1, setSelectedCountry1] = useState(null);
   const [selectedCountry2, setSelectedCountry2] = useState(null);
   const [valorAtracoes, setValorAtracoes] = useState(0);
-  //const [horaChegada, setHoraChegada] = useState('');
-  //const [horaSaida, setHoraSaida] = useState('');
+  const [searchData, setSearchData] = useState({ destination: '', days: '' });
   const navigate = useNavigate(); // Hook para navegação
 
-  const handleValorChange = (e) => {
-    setValorAtracoes(e.target.value);
-  };
+  useEffect(() => {
+    // Carregar o searchData do localStorage ao montar o componente
+    const savedSearchData = JSON.parse(localStorage.getItem('searchData'));
+    if (savedSearchData) {
+      setSearchData(savedSearchData);
+    }
+  }, []);
 
   const countriesfilter = [
     { name: 'Família' },
@@ -53,19 +56,38 @@ const Destinos = () => {
   return (
     <>
       {/* Ícone de seta para voltar à página inicial */}
-      <div className="iconone" onClick={() => navigate('/')}> {/* Navega para a página inicial */}
+      <div className="iconone" onClick={() => navigate('/')}>
         <TbSquareArrowLeftFilled size={40} color="#fff" />
       </div>
 
       <main className="second-screen">
         <div className="destinos-container">
-        {/* <div className="roteiro">
-            <h2>Roteiro da Viagem</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div> */}
-
           <div className="checkboxes">
             <h3>Selecione Opções:</h3>
+          </div>
+
+          <div>
+            <label htmlFor="destination" className="label">Destino:</label>
+            <input
+              type="text"
+              id="destination"
+              className="input-text"
+              placeholder="Ex: São Paulo, Brasil"
+              value={searchData.destination}
+              onChange={(e) => setSearchData({ ...searchData, destination: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="days" className="label">Quantidade de Dias:</label>
+            <input
+              type="number"
+              id="days"
+              className="input-date"
+              min="0"
+              value={searchData.days}
+              onChange={(e) => setSearchData({ ...searchData, days: e.target.value })}
+            />
           </div>
 
           <Dropdown
@@ -103,39 +125,14 @@ const Destinos = () => {
             />
           </div>
 
-          {/* Campos para Hora de Chegada e Hora de Saída */}
-          
-          {/*<div className="horas-container">
-            <h3>Horário:</h3>
-            <div className="hora-item">
-              <label htmlFor="horaChegada">Hora de Chegada:</label>
-              <input
-                type="text"
-                id="horaChegada"
-                value={horaChegada}
-                onChange={(e) => setHoraChegada(e.target.value)}
-                placeholder="Ex: 14:30"
-              />
-            </div>
-            <div className="hora-item">
-              <label htmlFor="horaSaida">Hora de Saída:</label>
-              <input
-                type="text"
-                id="horaSaida"
-                value={horaSaida}
-                onChange={(e) => setHoraSaida(e.target.value)}
-                placeholder="Ex: 18:45"
-              />
-            </div>
-          </div>
-          */}
           {/* Botão para navegar para a página de Resultado */}
           <Link
             to="/resultado"
             onClick={() => {
-              if (selectedCountry1 && selectedCountry2 && valorAtracoes) {
+              if (searchData.destination && searchData.days && selectedCountry2 && valorAtracoes) {
                 localStorage.setItem('travelStyle', selectedCountry2.name);
                 localStorage.setItem('budget', valorAtracoes);
+                localStorage.setItem('searchData', JSON.stringify(searchData)); // Atualiza searchData
               } else {
                 alert('Por favor, preencha todos os campos!');
               }
@@ -144,7 +141,6 @@ const Destinos = () => {
             <button className="button">Ver Resultados</button>
           </Link>
         </div>
-
       </main>
     </>
   );
