@@ -25,9 +25,9 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: 'Senha incorreta' });
     }
 
-    // Gera o token JWT
+    // Gera o token JWT com o campo `name`
     const token = jwt.sign(
-      { id: user.id, username: user.username },
+      { id: user.id, username: user.username, name: user.name }, // Inclui o campo `name` no token
       JWT_SECRET,
       { expiresIn: JWT_EXPIRATION }
     );

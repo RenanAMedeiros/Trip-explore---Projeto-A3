@@ -24,21 +24,13 @@ async function initDB() {
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 username VARCHAR(50) UNIQUE NOT NULL,
-                password TEXT NOT NULL
+                password TEXT NOT NULL,
+                name VARCHAR(100) NOT NULL
             );
         `);
 
         console.log('Tabela "users" criada ou já existe');
 
-        // Inserindo um usuário de exemplo (Caso não exista)
-        const hashedPassword = bcrypt.hashSync('senha123', 10);
-        await client.query(`
-            INSERT INTO users (username, password)
-            VALUES ('admin', $1)
-            ON CONFLICT (username) DO NOTHING;
-        `, [hashedPassword]);
-
-        console.log('Usuário "admin" adicionado ou já existe');
     } catch (error) {
         console.error('Erro ao criar a tabela:', error);
     } finally {
