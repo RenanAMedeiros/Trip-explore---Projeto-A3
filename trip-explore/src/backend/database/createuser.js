@@ -41,4 +41,4 @@ async function createUser(username, password, name) {
 }
 
 // Exemplo de uso
-createUser('rodrigo.bossini', 'Trip@@2024', 'Rodrigo Bossini');
+createUser('eloisa.silva', 'Trip@@2024', 'Eloisa Silva');

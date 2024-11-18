@@ -16,7 +16,7 @@ class GeminiController {
             const prompt = `
                 Gere um roteiro de viagem detalhado para ${destination} com as seguintes características:
                 - Duração: ${days} dias
-                - Orçamento: ${budget || 'flexível'}
+                - Orçamento: R$ ${budget || 'flexível'} 
                 - Estilo de viagem: ${travelStyle || 'misto'}
 
                 Por favor, inclua:
@@ -69,7 +69,7 @@ class GeminiController {
 
                 Informações básicas:
                 - Duração: ${days} dias
-                - Orçamento: ${budget}
+                - Orçamento: R$ ${budget} 
                 - Interesses: ${interests.join(', ')}
                 - Tipo de acomodação preferida: ${accommodation}
                 - Meio de transporte preferido: ${transportation}
@@ -85,7 +85,7 @@ class GeminiController {
                    - Tempo de deslocamento entre locais
                    - Horários de funcionamento
                 4. Opções de transporte
-                5. Orçamento detalhado
+                5. Orçamento detalhado em Real(R$)
                 6. Dicas culturais e de segurança
                 7. Documentos necessários
                 8. Contatos de emergência importantes

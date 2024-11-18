@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config(); // Carregar variáveis de ambiente do .env
 const authRoutes = require('./rotas/authRoutes'); // Rotas de autenticação
+const geminiRoutes = require('./rotas/GeminiRoutes'); // Rotas do Gemini
+const logsRoutes = require('./rotas/LogsRoutes'); // Certifique-se de importar corretamente
 
 const app = express();
 
@@ -16,9 +18,10 @@ if (!process.env.JWT_SECRET) {
   process.exit(1); // Encerra o servidor se a configuração estiver faltando
 }
 
-
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/travel', geminiRoutes); // Adiciona as rotas do Gemini
+app.use('/api', logsRoutes); // Rota para logs
 
 // Em produção, servir arquivos estáticos do React
 if (process.env.NODE_ENV === 'production') {
