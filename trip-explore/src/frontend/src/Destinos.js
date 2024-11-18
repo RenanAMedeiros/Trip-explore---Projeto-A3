@@ -9,8 +9,8 @@ const Destinos = () => {
   const [selectedCountry1, setSelectedCountry1] = useState(null);
   const [selectedCountry2, setSelectedCountry2] = useState(null);
   const [valorAtracoes, setValorAtracoes] = useState(0);
-  const [horaChegada, setHoraChegada] = useState('');
-  const [horaSaida, setHoraSaida] = useState('');
+  //const [horaChegada, setHoraChegada] = useState('');
+  //const [horaSaida, setHoraSaida] = useState('');
   const navigate = useNavigate(); // Hook para navegação
 
   const handleValorChange = (e) => {
@@ -59,10 +59,10 @@ const Destinos = () => {
 
       <main className="second-screen">
         <div className="destinos-container">
-          <div className="roteiro">
+        {/* <div className="roteiro">
             <h2>Roteiro da Viagem</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          </div>
+        </div> */}
 
           <div className="checkboxes">
             <h3>Selecione Opções:</h3>
@@ -104,7 +104,8 @@ const Destinos = () => {
           </div>
 
           {/* Campos para Hora de Chegada e Hora de Saída */}
-          <div className="horas-container">
+          
+          {/*<div className="horas-container">
             <h3>Horário:</h3>
             <div className="hora-item">
               <label htmlFor="horaChegada">Hora de Chegada:</label>
@@ -127,8 +128,19 @@ const Destinos = () => {
               />
             </div>
           </div>
+          */}
           {/* Botão para navegar para a página de Resultado */}
-          <Link to="/resultado">
+          <Link
+            to="/resultado"
+            onClick={() => {
+              if (selectedCountry1 && selectedCountry2 && valorAtracoes) {
+                localStorage.setItem('travelStyle', selectedCountry2.name);
+                localStorage.setItem('budget', valorAtracoes);
+              } else {
+                alert('Por favor, preencha todos os campos!');
+              }
+            }}
+          >
             <button className="button">Ver Resultados</button>
           </Link>
         </div>

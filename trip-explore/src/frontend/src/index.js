@@ -121,25 +121,38 @@ const App = () => {
             />
 
             <div className="flex-row">
-              <div className="flex-col">
-                <label htmlFor="dataInicio" className="label">
-                  Data de Ida:
-                </label>
-                <input type="date" id="dataInicio" className="input-date" />
-              </div>
-
-              <div className="flex-col">
-                <label htmlFor="dataFim" className="label">
-                  Data de Volta (Opcional):
-                </label>
-                <input type="date" id="dataFim" className="input-date" />
-              </div>
+            <div className="flex-col">
+              <label htmlFor="dataInicio" className="label">
+                Quantidade de Dias:
+              </label>
+              <input
+                type="number"
+                id="dataInicio"
+                className="input-date"
+                min="0"
+                onChange={(e) => {
+                  const value = Math.max(0, parseInt(e.target.value) || 0); // Garante que seja >= 0
+                  e.target.value = value; // Atualiza o valor do input
+                }}
+              />
+            </div>
             </div>
           </main>
 
           <button
             className="button"
-            onClick={() => navigate('/destinos')} // Agora navigate está no escopo
+            onClick={() => {
+              const destination = document.getElementById('descricao').value;
+              const days = document.getElementById('dataInicio').value;
+
+              if (destination && days) {
+                localStorage.setItem('destination', destination);
+                localStorage.setItem('days', days);
+                navigate('/destinos');
+              } else {
+                alert('Por favor, preencha todos os campos!');
+              }
+            }}
           >
             Encontrar Destinos!
           </button>
