@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode'; // exportação nomeada Biblioteca para decodificar o token JWT
 import './index.css';
 import './home.css';
 import { IoPersonCircleOutline, IoLogOutOutline } from 'react-icons/io5';
@@ -9,12 +10,12 @@ import Destinos from './Destinos';
 import Resultado from './Resultado';
 import Lista from './lista'; // Alterar para minúsculas
 
-const ButtonHome = ({ isLoggedIn, handleLogout }) => {
+const ButtonHome = ({ isLoggedIn, handleLogout, userName }) => {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
     if (isLoggedIn) {
-      alert('Você já está logado!'); // Mostrar mensagem
+      alert(`Você já está logado como ${userName}`); // Mostrar mensagem
       navigate('/'); // Redirecionar para a página inicial
     } else {
       navigate('/login'); // Redirecionar para a página de login
@@ -39,16 +40,32 @@ const ButtonHome = ({ isLoggedIn, handleLogout }) => {
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState(''); // Armazenar o nome do usuário logado
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para abrir/fechar o menu
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token); // Atualiza o estado com base na existência do token
-  }, []);
+    if (token) {
+        try {
+            const decoded = jwtDecode(token); // Decodifica o token JWT
+            setIsLoggedIn(true);
+            setUserName(decoded.name || 'Usuário'); // Configura o nome do usuário
+            
+            // Loga no terminal e no console do navegador
+            console.log(`Usuário logado: ${decoded.name || 'Usuário'}`);
+            alert(`Bem-vindo, ${decoded.name || 'Usuário'}!`);
+        } catch (error) {
+            console.error('Erro ao decodificar o token:', error);
+            setIsLoggedIn(false);
+            setUserName('');
+        }
+    }
+}, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove o token
     setIsLoggedIn(false); // Atualiza o estado
+    setUserName(''); // Limpa o nome do usuário
     alert('Você foi deslogado com sucesso!'); // Mensagem opcional
     window.location.href = '/'; // Redireciona para a página inicial
   };
@@ -88,7 +105,11 @@ const App = () => {
           <main className="main">
             <h1>Que bom te ver por aqui! Para onde vamos hoje?</h1>
 
-            <p>{isLoggedIn ? 'Usuário Logado' : 'Faça login para continuar'}</p>
+            <p>
+              {isLoggedIn
+                ? `Bem-vindo, ${userName}!`
+                : 'Faça login para continuar'}
+            </p>
             <label htmlFor="descricao" className="label">
               Digite seu destino:
             </label>
@@ -142,7 +163,11 @@ const App = () => {
             <span className="lines"></span>
           </button>
 
-          <ButtonHome isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+          <ButtonHome
+            isLoggedIn={isLoggedIn}
+            handleLogout={handleLogout}
+            userName={userName}
+          />
         </div>
 
         {/* Menu lateral que abre ao clicar no botão de hambúrguer */}
